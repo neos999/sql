@@ -17,18 +17,15 @@ select id, cfg_item_group, characteristics, characteristic_values, char_code, ch
 			as json_char
 
 			intersect
-select characteristic from cfg_item_characteristics where cfg_item = @item_id
-) I
-
-) > 0
-then 1 else 0 end
-as item_has_char
-from cfg_group_char_attributes as group_outer
-where cfg_item_group = @group_id
-and characteristics not in
-(
-Select characteristics from cfg_item_char_attributes where cfg_item = @item_id 
-)
-
-
+			select characteristic from cfg_item_characteristics where cfg_item = @item_id
+		) I
+	) > 0
+	then 1 else 0 end
+	as item_has_char
+	from cfg_group_char_attributes as group_outer
+	where cfg_item_group = @group_id
+	and characteristics not in
+	(
+		Select characteristics from cfg_item_char_attributes where cfg_item = @item_id 
+	)
 ;
